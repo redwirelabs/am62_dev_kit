@@ -14,3 +14,10 @@ def deps do
   ]
 end
 ```
+
+Create an alias in the Nerves application at `/rootfs_overlay/etc/iex.exs` if
+you would like to type a shorter name for the module in the IEx prompt.
+
+```elixir
+alias AM62DevKit, as: DK
+```

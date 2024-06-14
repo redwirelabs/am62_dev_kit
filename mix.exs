@@ -35,6 +35,7 @@ defmodule AM62DevKit.MixProject do
   defp deps do
     [
       {:circuits_i2c, "~> 2.0"},
+      {:circuits_gpio, "~> 2.1"},
       {:dialyxir, "~> 1.4", only: :dev, runtime: false},
       {:ex_doc, "~> 0.34", only: :dev, runtime: false},
     ]

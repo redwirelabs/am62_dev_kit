@@ -4,6 +4,16 @@ defmodule AM62DevKit do
   """
 
   @doc """
+  Turn on/off the expansion header power rails.
+  """
+  @spec expansion_power(:on | :off) :: :ok
+  def expansion_power(state) do
+    value = if state == :on, do: 1, else: 0
+
+    Circuits.GPIO.write_one("EXP_PS_3V3_En", value)
+    Circuits.GPIO.write_one("EXP_PS_5V0_En", value)
+  end
+
   Get the temperature of the CPU.
   """
   @spec cpu_temp(opts :: list) :: float

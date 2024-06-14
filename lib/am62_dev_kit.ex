@@ -14,6 +14,35 @@ defmodule AM62DevKit do
     Circuits.GPIO.write_one("EXP_PS_5V0_En", value)
   end
 
+  @doc """
+  Turn on/off the I2C2 bus to the expansion header(s).
+
+  :on  - Enable I2C2 on the user header + CSI header.
+  :exp - Enable I2C2 on the user header only.
+  :csi - Enable I2C2 on the CSI header only.
+  :off - Disable I2C2 on the user header + CSI header.
+  """
+  @spec expansion_i2c2(state :: :on | :off | :exp | :csi, opts::list) :: :ok
+  def expansion_i2c2(state, opts \\ []) do
+    i2c_ref = opts[:i2c_ref] || i2c_open!("i2c-2")
+
+    data =
+      case state do
+        :off -> <<0x00>>
+        :on  -> <<0x03>>
+        :exp -> <<0x01>>
+        :csi -> <<0x02>>
+      end
+
+    Circuits.I2C.write(i2c_ref, 0x71, data)
+
+    unless opts[:i2c_ref],
+      do: Circuits.I2C.close(i2c_ref)
+
+    :ok
+  end
+
+  @doc """
   Get the temperature of the CPU.
   """
   @spec cpu_temp(opts :: list) :: float
